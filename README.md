@@ -7,7 +7,7 @@ Project Manager System is an application that assists in project production and 
 Clarifying the project requirements is extremely important to have quality and accuracy in what will be developed. <br>
 [Project Manager Requirements.pdf](https://github.com/user-attachments/files/15849351/Project.Manager.Requirements.pdf)
 ## Entities
-*User
+* User
     * ID (unique)
     * Name
     * Email
