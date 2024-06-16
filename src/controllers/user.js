@@ -6,17 +6,17 @@ const SECRET_KEY = 'c209e4660e965332f0c7424aa357079b597726d83a0ee935c2f609d74fc9
 const SALT_VALUE = 10
 
 class UserController {
-    async createUser(nome, email, senha) {
-        if (nome === undefined || email === undefined || senha === undefined) {
+    async createUser(name, email, password) {
+        if (name === undefined || email === undefined || password === undefined) {
             throw new Error('Name, email and password are required')
         }
 
-        const cypherSenha = await bcrypt.hash(senha, SALT_VALUE)
+        const cypherpassword = await bcrypt.hash(password, SALT_VALUE)
 
         const userValue = await user.create({
-            nome,
+            name,
             email,
-            senha: cypherSenha
+            password: cypherpassword
         })
 
         return userValue
@@ -36,16 +36,16 @@ class UserController {
         return userValue
     }
 
-    async update(id, nome, email, senha) {
-        if (id === undefined || nome === undefined || email === undefined || senha === undefined) {
+    async update(id, name, email, password) {
+        if (id === undefined || name === undefined || email === undefined || password === undefined) {
             throw new Error('Id, name, email and password are required')
         }
 
         const userValue = await this.findUser(id)
 
-        userValue.nome = nome
+        userValue.name = name
         userValue.email = email
-        userValue.senha = await bcrypt.hash(senha, SALT_VALUE)
+        userValue.password = await bcrypt.hash(password, SALT_VALUE)
         userValue.save()
 
         return userValue
@@ -65,8 +65,8 @@ class UserController {
         return user.findAll()
     }
 
-    async login(email, senha) {
-        if (email === undefined || senha === undefined) {
+    async login(email, password) {
+        if (email === undefined || password === undefined) {
             throw new Error('Email and password are required')
         }
 
@@ -76,8 +76,8 @@ class UserController {
             throw new Error('Invalid username or password')
         }
 
-        const senhaValida = bcrypt.compare(senha, userValue.senha)
-        if (!senhaValida) {
+        const passwordValida = bcrypt.compare(password, userValue.password)
+        if (!passwordValida) {
             throw new Error('Invalid username or password')
         }
 
