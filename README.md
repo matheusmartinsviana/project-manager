@@ -7,23 +7,23 @@ Project Manager System is an application that assists in project production and 
 Clarifying the project requirements is extremely important to have quality and accuracy in what will be developed. <br>
 [Project Manager Requirements.pdf](https://github.com/user-attachments/files/15849351/Project.Manager.Requirements.pdf)
 ## Entities
-* Usuário
-    * ID (único)
-    * Nome
+* User
+    * ID (unique)
+    * Name
     * Email
-    * Senha (hash)
-    * Data de criação
-* Projeto
-    * ID (único)
-    * Nome
-    * Descrição
-    * Data de criação
-    * ID do Usuário (relacionamento com a entidade Usuário)
-* Tarefa
-    * ID (único)
-    * Título
-    * Descrição
-    * Data de criação
-    * Data de conclusão (opcional)
-    * Status (pendente, em andamento, concluída)
-    * ID do Projeto (relacionamento com a entidade Projeto)
+    * Password (hash)
+    * Creation Date
+* Project
+    * ID (unique)
+    * Name
+    * Description
+    * Creation Date
+    * User ID (relationship with the User entity)
+* Task
+    * ID (unique)
+    * Title
+    * Description
+    * Creation date
+    * Completion date (optional)
+    * Status (pending, in progress, completed)
+    * Project ID (relationship with the Project entity)
