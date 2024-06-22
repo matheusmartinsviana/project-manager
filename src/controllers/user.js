@@ -83,8 +83,8 @@ class UserController {
             throw new Error('Invalid username or password')
         }
 
-        const passwordValida = bcrypt.compare(password, userValue.password)
-        if (!passwordValida) {
+        const validPassword = bcrypt.compare(password, userValue.password)
+        if (!validPassword) {
             throw new Error('Invalid username or password')
         }
 
