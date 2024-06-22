@@ -34,7 +34,10 @@ class Task {
                     key: 'id'
                 }
             }
+
         })
 
     }
 }
+
+module.exports = (new Task()).model
