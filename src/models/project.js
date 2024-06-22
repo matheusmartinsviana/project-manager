@@ -10,7 +10,7 @@ class Project {
                 autoIncrement: true
             },
             name: {
-                type: database.db.Sequelize.STRING,
+                type: DataTypes.STRING(100),
                 allowNull: false
             },
             description: {
