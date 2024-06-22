@@ -13,13 +13,20 @@ class UserController {
 
         const cypherpassword = await bcrypt.hash(password, SALT_VALUE)
 
-        const userValue = await user.create({
-            name,
-            email,
-            password: cypherpassword
-        })
+        try {
+            const userValue = await user.create({
+                name,
+                email,
+                password: cypherpassword
+            })
 
-        return userValue
+            return userValue
+        } catch (error) {
+            if (error.parent && error.parent.code === "ER_DUP_ENTRY") {
+                throw new Error("Email already exists")
+            }
+            throw new Error(error.parent && error.parent.message ? error.parent.message : error.message);
+        }
     }
 
     async findUser(id) {
@@ -82,18 +89,6 @@ class UserController {
         }
 
         return jwt.sign({ id: userValue.id }, SECRET_KEY, { expiresIn: 60 * 60 })
-    }
-
-    async validateToken(token) {
-        if (!token) {
-            throw new Error('Invalid token')
-        }
-
-        try {
-            await jwt.verify(token, SECRET_KEY)
-        } catch {
-            throw new Error('Invalid token')
-        }
     }
 }
 

@@ -8,7 +8,7 @@ class UserApi {
             const user = await UserController.createUser(name, email, password)
             return res.status(201).send(user)
         } catch (e) {
-            return res.status(400).send({ error: `Error creating user ${e.message}`})
+            return res.status(400).send({ error: `Error creating user: ${e.message}` })
         }
     }
 
@@ -20,7 +20,7 @@ class UserApi {
             const user = await UserController.update(Number(id), name, email, password)
             return res.status(200).send(user)
         } catch (e) {
-            return res.status(400).send({ error: `Error updating user ${e.message}`})
+            return res.status(400).send({ error: `Error updating user: ${e.message}` })
         }
     }
 
@@ -31,7 +31,7 @@ class UserApi {
             await UserController.delete(Number(id))
             return res.status(204).send()
         } catch (e) {
-            return res.status(400).send({ error: `Error deleting user ${e.message}`})
+            return res.status(400).send({ error: `Error deleting user: ${e.message}` })
         }
     }
 
@@ -40,7 +40,7 @@ class UserApi {
             const users = await UserController.find()
             return res.status(200).send(users)
         } catch (e) {
-            return res.status(400).send({ error: `Error listing users ${e.message}`})
+            return res.status(400).send({ error: `Error listing users: ${e.message}` })
         }
     }
 
@@ -51,17 +51,6 @@ class UserApi {
             const token = await UserController.login(email, password)
 
             res.status(200).send({ token })
-        } catch (e) {
-            res.status(400).send({ error: e.message })
-        }
-    }
-
-    async validateToken(req, res, next) {
-        const token = req.headers.authorization
-
-        try {
-            await UserController.validateToken(token)
-            next()
         } catch (e) {
             res.status(400).send({ error: e.message })
         }

@@ -8,7 +8,7 @@ class ProjectApi {
             const project = await ProjectController.create(name, description, userId)
             return res.status(201).send(project)
         } catch (e) {
-            return res.status(400).send({ error: `Error creating project ${e.message}`})
+            return res.status(400).send({ error: `Error creating project: ${e.message}`})
         }
     }
 
@@ -20,7 +20,7 @@ class ProjectApi {
             const project = await ProjectController.update(Number(id), name, description, userId)
             return res.status(200).send(project)
         } catch (e) {
-            return res.status(400).send({ error: `Error updating project ${e.message}`})
+            return res.status(400).send({ error: `Error updating project: ${e.message}`})
         }
     }
 
@@ -31,7 +31,7 @@ class ProjectApi {
             await ProjectController.delete(Number(id))
             return res.status(204).send()
         } catch (e) {
-            return res.status(400).send({ error: `Error deleting project ${e.message}`})
+            return res.status(400).send({ error: `Error deleting project: ${e.message}`})
         }
     }
 
@@ -40,7 +40,7 @@ class ProjectApi {
             const project = await ProjectController.find()
             return res.status(200).send(project)
         } catch (e) {
-            return res.status(400).send({ error: `Error listing projects ${e.message}`})
+            return res.status(400).send({ error: `Error listing projects: ${e.message}`})
         }
     }
 }

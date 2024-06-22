@@ -1,10 +1,12 @@
 const express = require('express')
-
+const AuthMiddleware = require('../middlewares/authMiddleware')
 const UserApi = require('../api/user')
 const router = express.Router()
 
-router.put('/:id', UserApi.updateUser)
-router.get('/', UserApi.findUsers)
-router.delete('/:id', UserApi.deleteUser)
+router.post('/login', UserApi.login)
+router.post('/', UserApi.createUser)
+router.put('/:id', AuthMiddleware.validateToken, UserApi.updateUser)
+router.get('/', AuthMiddleware.validateToken, UserApi.findUsers)
+router.delete('/:id', AuthMiddleware.validateToken, UserApi.deleteUser)
 
 module.exports = router
