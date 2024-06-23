@@ -48,7 +48,7 @@ class TaskApi {
         const { status } = req.body
 
         try {
-            const task = await TaskController.findTasksByStatus()
+            const task = await TaskController.findByStatus(status)
             return res.status(200).send(task)
         } catch (e) {
             return res.status(400).send({ error: `Error listing tasks: ${e.message}`})
