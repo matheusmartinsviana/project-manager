@@ -18,9 +18,9 @@ class TaskController {
         return taskValue
     }
 
-    async update(id, title, description, projectId) {
+    async update(id, title, description, status, conclusionDate, projectId) {
         if (id === undefined || title === undefined || description === undefined || projectId === undefined) {
-            throw new Error('Id, title, description, projectId')
+            throw new Error('Id, title, description, projectId are required')
         }
 
         await ProjectController.findProject(projectId)
@@ -30,6 +30,8 @@ class TaskController {
         taskValue.title = title
         taskValue.description = description
         taskValue.projectId = projectId
+        taskValue.status = status
+        taskValue.conclusionDate = conclusionDate
         taskValue.save()
 
         return taskValue
