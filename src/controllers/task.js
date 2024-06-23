@@ -63,6 +63,14 @@ class TaskController {
     async find() {
         return task.findAll()
     }
+
+    async findByStatus(status) {
+        return task.findAll({
+            where: {
+                status: status
+            }
+        })
+    }
 }
 
 module.exports = new TaskController()

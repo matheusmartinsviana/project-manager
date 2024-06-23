@@ -43,6 +43,17 @@ class TaskApi {
             return res.status(400).send({ error: `Error listing tasks: ${e.message}`})
         }
     }
+
+    async findTasksByStatus(req, res) {
+        const { status } = req.body
+
+        try {
+            const task = await TaskController.findTasksByStatus()
+            return res.status(200).send(task)
+        } catch (e) {
+            return res.status(400).send({ error: `Error listing tasks: ${e.message}`})
+        }
+    }
 }
 
 module.exports = new TaskApi()
