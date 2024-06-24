@@ -7,8 +7,8 @@ const SALT_VALUE = 10
 
 class UserController {
     async createUser(name, email, password) {
-        if (name === undefined || email === undefined || password === undefined) {
-            throw new Error('Name, email and password are required')
+        if (!name || !email || !password) {
+            throw new Error('Name, email, and password are required')
         }
 
         const cypherpassword = await bcrypt.hash(password, SALT_VALUE)
@@ -22,15 +22,15 @@ class UserController {
 
             return userValue
         } catch (error) {
-            if (error.parent && error.parent.code === "ER_DUP_ENTRY") {
-                throw new Error("Email already exists")
+            if (error.parent && error.parent.code === 'ER_DUP_ENTRY') {
+                throw new Error('Email already exists')
             }
-            throw new Error(error.parent && error.parent.message ? error.parent.message : error.message);
+            throw new Error(error.message || 'Error creating user')
         }
     }
 
     async findUser(id) {
-        if (id === undefined) {
+        if (!id) {
             throw new Error('Id is required')
         }
 
@@ -44,8 +44,8 @@ class UserController {
     }
 
     async update(id, name, email, password) {
-        if (id === undefined || name === undefined || email === undefined || password === undefined) {
-            throw new Error('Id, name, email and password are required')
+        if (!id || !name || !email || !password) {
+            throw new Error('Id, name, email, and password are required')
         }
 
         const userValue = await this.findUser(id)
@@ -53,19 +53,18 @@ class UserController {
         userValue.name = name
         userValue.email = email
         userValue.password = await bcrypt.hash(password, SALT_VALUE)
-        userValue.save()
+        await userValue.save()
 
         return userValue
     }
 
     async delete(id) {
-        if (id === undefined) {
+        if (!id) {
             throw new Error('Id is required')
         }
-        const userValue = await this.findUser(id)
-        userValue.destroy()
 
-        return
+        const userValue = await this.findUser(id)
+        await userValue.destroy()
     }
 
     async find() {
@@ -73,7 +72,7 @@ class UserController {
     }
 
     async login(email, password) {
-        if (email === undefined || password === undefined) {
+        if (!email || !password) {
             throw new Error('Email and password are required')
         }
 
@@ -83,12 +82,12 @@ class UserController {
             throw new Error('Invalid username or password')
         }
 
-        const validPassword = bcrypt.compare(password, userValue.password)
+        const validPassword = await bcrypt.compare(password, userValue.password)
         if (!validPassword) {
             throw new Error('Invalid username or password')
         }
 
-        return jwt.sign({ id: userValue.id }, SECRET_KEY, { expiresIn: 60 * 60 })
+        return jwt.sign({ id: userValue.id }, SECRET_KEY, { expiresIn: '1h' })
     }
 }
 

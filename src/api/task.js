@@ -14,17 +14,17 @@ class TaskApi {
 
     async updateTask(req, res) {
         const { id } = req.params
-        const { title, description, status, conclusionDate, projectId } = req.body
+        const { title, description, status, conclusionDate } = req.body
 
         try {
-            const task = TaskController.update(Number(id), title, description, status, conclusionDate, projectId)
+            const task = await TaskController.update(Number(id), title, description, status, conclusionDate)
             return res.status(200).send(task)
         } catch (e) {
             return res.status(400).send({ error: `Error updating task: ${e.message}`})
         }
     }
 
-    async deleteTask(req, res){
+    async deleteTask(req, res) {
         const { id } = req.params
 
         try {
@@ -37,8 +37,8 @@ class TaskApi {
 
     async findTasks(req, res) {
         try {
-            const task = await TaskController.find()
-            return res.status(200).send(task)
+            const tasks = await TaskController.find()
+            return res.status(200).send(tasks)
         } catch (e) {
             return res.status(400).send({ error: `Error listing tasks: ${e.message}`})
         }
@@ -48,8 +48,8 @@ class TaskApi {
         const { status } = req.body
 
         try {
-            const task = await TaskController.findByStatus(status)
-            return res.status(200).send(task)
+            const tasks = await TaskController.findByStatus(status)
+            return res.status(200).send(tasks)
         } catch (e) {
             return res.status(400).send({ error: `Error listing tasks: ${e.message}`})
         }

@@ -3,8 +3,8 @@ const ProjectController = require('../controllers/project')
 
 class TaskController {
     async create(title, description, projectId) {
-        if (title === undefined || description === undefined || projectId === undefined) {
-            throw new Error('Title, description and projectId are required')
+        if (!title || !description || !projectId) {
+            throw new Error('Title, description, and projectId are required')
         }
 
         await ProjectController.findProject(Number(projectId))
@@ -18,36 +18,34 @@ class TaskController {
         return taskValue
     }
 
-    async update(id, title, description, status, conclusionDate, projectId) {
-        if (id === undefined || title === undefined || description === undefined || projectId === undefined) {
-            throw new Error('Id, title, description, projectId are required')
+    async update(id, title, description, status, conclusionDate) {
+        if (!id || !title || !description) {
+            throw new Error('Id, title, and description are required')
         }
-
-        await ProjectController.findProject(projectId)
 
         const taskValue = await this.findTask(id)
 
         taskValue.title = title
         taskValue.description = description
-        taskValue.projectId = projectId
-        taskValue.status = status
-        taskValue.conclusionDate = conclusionDate
-        taskValue.save()
+        if (status !== undefined) taskValue.status = status
+        if (conclusionDate !== undefined) taskValue.conclusionDate = conclusionDate
+
+        await taskValue.save()
 
         return taskValue
     }
 
     async delete(id) {
-        if (id === undefined) {
+        if (!id) {
             throw new Error('Id is required')
         }
+
         const taskValue = await this.findTask(id)
-        taskValue.destroy()
-        return
+        await taskValue.destroy()
     }
 
     async findTask(id) {
-        if (id === undefined) {
+        if (!id) {
             throw new Error('Id is required')
         }
 
@@ -65,10 +63,12 @@ class TaskController {
     }
 
     async findByStatus(status) {
+        if (!status) {
+            throw new Error('Status is required')
+        }
+
         return task.findAll({
-            where: {
-                status: status
-            }
+            where: { status }
         })
     }
 }
