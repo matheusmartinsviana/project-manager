@@ -10,7 +10,6 @@ Project Manager System is an application designed to assist in project productio
 - [Technologies Used](#technologies-used)
 - [Project Structure](#project-structure)
 - [Setup and Installation](#setup-and-installation)
-- [Deployment](#deployment)
 
 ## Relationships
 
