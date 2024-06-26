@@ -6,7 +6,7 @@ const SECRET_KEY = 'c209e4660e965332f0c7424aa357079b597726d83a0ee935c2f609d74fc9
 const SALT_VALUE = 10
 
 class UserController {
-    async createUser(name, email, password) {
+    async create(name, email, password) {
         if (!name || !email || !password) {
             throw new Error('Name, email, and password are required')
         }

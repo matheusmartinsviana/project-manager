@@ -7,7 +7,7 @@ class AuthMiddleware {
         try {
             const authHeader = req.headers.authorization;
             if (!authHeader) {
-                return res.status(401).send({ error: 'No token provided' });
+                return res.status(401).send({ error: 'Token is required' });
             }
 
             const token = authHeader;
@@ -17,7 +17,7 @@ class AuthMiddleware {
 
             await jwt.verify(token, SECRET_KEY)
             next();
-        } catch(e) {
+        } catch (e) {
             res.status(400).send({ error: e.message });
         }
     }

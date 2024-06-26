@@ -24,7 +24,7 @@ class ProjectController {
         }
 
         const projectValue = await project.findByPk(id)
-        
+
         if (!projectValue) {
             throw new Error('Project not found')
         }
@@ -32,18 +32,17 @@ class ProjectController {
         return projectValue
     }
 
-    async update(id, name, description, userId) {
-        if (!id || !name || !description || !userId) {
-            throw new Error('Id, name, description, and userId are required')
+    async update(id, name, description) {
+        if (!id || !name || !description) {
+            throw new Error('Id, name and description are required')
         }
 
-        await UserController.findUser(userId)
-
         const projectValue = await this.findProject(id)
+        await UserController.findUser(projectValue.userId)
 
         projectValue.name = name
         projectValue.description = description
-        projectValue.userId = userId
+        
         await projectValue.save()
 
         return projectValue

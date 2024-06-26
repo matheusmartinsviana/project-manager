@@ -31,7 +31,6 @@ class TaskController {
         if (conclusionDate !== undefined) taskValue.conclusionDate = conclusionDate
 
         await taskValue.save()
-
         return taskValue
     }
 
@@ -67,9 +66,11 @@ class TaskController {
             throw new Error('Status is required')
         }
 
-        return task.findAll({
-            where: { status }
+        const taskValue = await task.findAndCountAll({
+            where: { status: status }
         })
+
+        return taskValue
     }
 }
 
