@@ -1,23 +1,18 @@
-const app = require('./app');
-const database = require('./config/database');
+const { config } = require('dotenv')
+const app = require('./app')
+const database = require('./config/database')
 
-const PORT = 8000;
+const PORT = 8000
+database.db.sync({ force: false })
+    .then(_ => {
+        if (process.env.NODE_ENV !== 'test') {
+            app.listen(PORT, () => {
+                console.log(`Server is running at port: ${PORT}`);
+            });
+        }
+    })
+    .catch(e => {
+        console.error(`Error initializing database: ${e}`)
+    })
 
-const startServer = async () => {
-    try {
-        await database.db.sync({ force: false });
-        const server = app.listen(PORT, () => {
-            console.log(`Servidor rodando na porta ${PORT}`);
-        });
-        return server;
-    } catch (e) {
-        console.error(`Error initializing database: ${e}`);
-        throw e;
-    }
-};
-
-if (process.env.NODE_ENV !== 'test') {
-    startServer();
-}
-
-module.exports = startServer;
+module.exports = app
