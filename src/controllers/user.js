@@ -6,7 +6,7 @@ const SECRET_KEY = 'c209e4660e965332f0c7424aa357079b597726d83a0ee935c2f609d74fc9
 const SALT_VALUE = 10
 
 class UserController {
-    async create(name, email, password) {
+    async create(name, email, password, transaction) {
         if (!name || !email || !password) {
             throw new Error('Name, email, and password are required')
         }
@@ -17,7 +17,8 @@ class UserController {
             const userValue = await user.create({
                 name,
                 email,
-                password: cypherpassword
+                password: cypherpassword,
+                transaction
             })
 
             return userValue
