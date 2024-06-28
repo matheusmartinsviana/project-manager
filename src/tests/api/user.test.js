@@ -15,7 +15,7 @@ const mockUserUpdated = {
 
 describe('API Tests - User Endpoints', () => {
 
-    it('post at /api/v1/user to create a new user', async () => {
+    it('post at /api/v1/user to create a new user: Should create a user', async () => {
         const response = await request(app)
             .post('/api/v1/user/')
             .send(mockUser)
@@ -42,5 +42,39 @@ describe('API Tests - User Endpoints', () => {
         expect(response.statusCode).toBe(200)
         expect(response.body.name).toEqual(mockUserUpdated.name)
         expect(response.body.email).toEqual(mockUserUpdated.email)
+    })
+
+    it('delete at /api/v1/user/:id to delete a user', async () => {
+        const userValue = await request(app)
+            .post('/api/v1/user/')
+            .send(mockUser)
+
+        const login = await request(app)
+            .post('/api/v1/user/login')
+            .send({ email: mockUser.email, password: mockUser.password })
+
+        const response = await request(app)
+            .delete(`/api/v1/user/${userValue.body.id}`)
+            .set("Authorization", login.body.token)
+
+        expect(response.statusCode).toBe(204)
+    })
+
+    it('get at /api/v1/user/ to get all users', async () => {
+        const userValue = await request(app)
+            .post('/api/v1/user/')
+            .send(mockUser)
+
+        const login = await request(app)
+            .post('/api/v1/user/login')
+            .send({ email: mockUser.email, password: mockUser.password })
+
+        const response = await request(app)
+            .get(`/api/v1/user/`)
+            .set("Authorization", login.body.token)
+
+        
+        expect(response.statusCode).toBe(200)
+        expect(response.body).toBeInstanceOf(Array)
     })
 })
