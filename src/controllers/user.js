@@ -35,7 +35,7 @@ class UserController {
             throw new Error('Id is required')
         }
 
-        const userValue = await user.findByPk(id)
+        const userValue = await user.findByPk(Number(id))
 
         if (!userValue) {
             throw new Error('User not found')
@@ -44,7 +44,7 @@ class UserController {
         return userValue
     }
 
-    async update(id, name, email, password) {
+    async update(id, name, email, password, transaction) {
         if (!id || !name || !email || !password) {
             throw new Error('Id, name, email, and password are required')
         }
@@ -54,18 +54,18 @@ class UserController {
         userValue.name = name
         userValue.email = email
         userValue.password = await bcrypt.hash(password, SALT_VALUE)
-        await userValue.save()
+        await userValue.save(transaction)
 
         return userValue
     }
 
-    async delete(id) {
+    async delete(id, transaction) {
         if (!id) {
             throw new Error('Id is required')
         }
 
         const userValue = await this.findUser(id)
-        await userValue.destroy()
+        if (await userValue.destroy(transaction)) return 1
     }
 
     async find() {
