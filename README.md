@@ -15,6 +15,7 @@ Swagger is an application that has many tools for developers, and one of the too
 - [Technologies Used](#technologies-used)
 - [Project Structure](#project-structure)
 - [Setup and Installation](#setup-and-installation)
+- [Integration and API Tests](#integration-and-api-tests)
 
 ## Relationships
 
@@ -135,5 +136,28 @@ project-manager/
     ```bash
     npm run dev
     ```
+## Integration and API Tests
+To see all tests you need change this branch to:
+    ```bash
+    Branch: tests
+    ```
+## Tests Structure
+```
+project-manager/
+├── src/
+│ ├── ...
+│ ├── tests/
+│ │ ├── api/
+│ │ | ├──project.js
+│ │ | ├── task.js
+│ │ | └── user.js
+│ │ ├── integration/
+│ │ | ├──project.js
+│ │ | ├── task.js
+│ │ | └── user.js
+```
 
-This README provides a comprehensive overview of the Project Manager System, its setup, and deployment process.
+## Technologies Used
+
+- **Jest** (dev dependency)
+- **Supertest** (dev dependency)
