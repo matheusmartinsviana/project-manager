@@ -3,8 +3,8 @@ const UserController = require('./user')
 
 class ProjectController {
     async create(name, description, userId) {
-        if (name === undefined || description === undefined || userId === undefined) {
-            throw new Error('Name, description and userId are required')
+        if (!name || !description || !userId) {
+            throw new Error('Name, description, and userId are required')
         }
 
         await UserController.findUser(Number(userId))
@@ -19,12 +19,12 @@ class ProjectController {
     }
 
     async findProject(id) {
-        if (id === undefined) {
+        if (!id) {
             throw new Error('Id is required')
         }
 
         const projectValue = await project.findByPk(id)
-        
+
         if (!projectValue) {
             throw new Error('Project not found')
         }
@@ -32,29 +32,28 @@ class ProjectController {
         return projectValue
     }
 
-    async update(id, name, description, userId) {
-        if (id === undefined || name === undefined || description === undefined || userId === undefined) {
-            throw new Error('Name, description and userId is required')
+    async update(id, name, description) {
+        if (!id || !name || !description) {
+            throw new Error('Id, name and description are required')
         }
 
-        await UserController.findUser(userId)
-
         const projectValue = await this.findProject(id)
+        await UserController.findUser(projectValue.userId)
 
         projectValue.name = name
         projectValue.description = description
-        projectValue.userId = userId
-        projectValue.save()
+        
+        await projectValue.save()
 
         return projectValue
     }
 
     async delete(id) {
-        if (id === undefined) {
+        if (!id) {
             throw new Error('Id is required')
         }
         const projectValue = await this.findProject(id)
-        projectValue.destroy()
+        await projectValue.destroy()
 
         return
     }

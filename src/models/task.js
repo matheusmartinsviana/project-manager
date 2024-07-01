@@ -1,34 +1,43 @@
 const { DataTypes } = require('sequelize')
 const database = require('../config/database')
 
-class Project {
+class Task {
     constructor() {
-        this.model = database.db.define('projects', {
+        this.model = database.db.define('tasks', {
             id: {
                 type: database.db.Sequelize.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
             },
-            name: {
+            title: {
                 type: DataTypes.STRING(100),
                 allowNull: false
             },
             description: {
                 type: database.db.Sequelize.STRING,
-                allowNull: false
+            },
+            status: {
+                type: database.db.Sequelize.STRING,
+                defaultValue: "pending"
+            },
+            conclusionDate: {
+                type: DataTypes.DATE,
+                allowNull: true
             },
             createdAt: {
                 type: DataTypes.DATE
             },
-            userId: {
+            projectId: {
                 type: database.db.Sequelize.INTEGER,
                 references: {
-                    model: 'users',
+                    model: 'projects',
                     key: 'id'
                 }
             }
+
         })
+
     }
 }
 
-module.exports = (new Project()).model
+module.exports = (new Task()).model
