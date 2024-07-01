@@ -5,14 +5,10 @@ const SECRET_KEY = 'c209e4660e965332f0c7424aa357079b597726d83a0ee935c2f609d74fc9
 class AuthMiddleware {
     async validateToken(req, res, next) {
         try {
-            const authHeader = req.headers.authorization;
-            if (!authHeader) {
-                return res.status(401).send({ error: 'Token is required' });
-            }
+            const token = req.headers.authorization;
 
-            const token = authHeader;
             if (!token) {
-                return res.status(401).send({ error: 'Malformed token' });
+                return res.status(401).send({ error: 'Token is required' });
             }
 
             await jwt.verify(token, SECRET_KEY)
