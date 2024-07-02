@@ -62,7 +62,6 @@ Clarifying the project requirements is crucial for quality and accuracy in devel
 
 ## Project Structure
 
-## Project Structure
 ```
 project-manager/
 ├── src/
