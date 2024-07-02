@@ -3,7 +3,7 @@
 Project Manager System is an application designed to assist in project production and proficiency, helping you achieve your objectives efficiently.
 
 ## API Documentation
-<a href="https://app.swaggerhub.com/apis-docs/MATHEUSMVIANA/project-manager/1.0.0" target="_blank">
+<a href="https://matheusmartinsviana.github.io/project-manager-documentation/#api-Users-apiV1LoginPost" target="_blank">
 <img src="https://github.com/matheusmartinsviana/project-manager/assets/146596878/d5edde68-9dca-4e29-8fee-8f565b785fa9" width="100" height="100"> <br> Project Manager API developed with Swagger</a> <br>
 Swagger is an application that has many tools for developers, and one of the tools is that you can create API documentation
 
