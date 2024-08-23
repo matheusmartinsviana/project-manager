@@ -10,7 +10,13 @@ class Database {
             host: 'dpg-cr40hcjtq21c73drsil0-a.oregon-postgres.render.com',
             dialect: 'postgres',
             port: 5432,
-            logging: false // Ative o logging se precisar ver os logs das consultas SQL
+            logging: false, // Ative o logging se precisar ver os logs das consultas SQL
+            dialectOptions: {
+                ssl: {
+                    require: true,
+                    rejectUnauthorized: false // Ajuste conforme necessário
+                }
+            }
         });
     }
 }
