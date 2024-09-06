@@ -121,7 +121,7 @@ project-manager/
 
 3. **Configure the database**
 
-    Create a MySQL database with the following details:
+    Create a MySQL(But to deploy in rendering I needed to use PostgreSQL) database with the following details:
 
     ```plaintext
     database: 'project-manager'
