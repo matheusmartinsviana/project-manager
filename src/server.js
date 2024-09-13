@@ -5,7 +5,7 @@ const ProjectRouter = require('./routes/project');
 const TaskRouter = require('./routes/task');
 
 app.get('/', (req, res) => {
-    res.status(200).json({ message: 'Hello World' });
+    res.status(200).json({ message: 'Welcome to project manager api! \n Docs: https://matheusmartinsviana.github.io/project-manager-documentation/' });
 });
 
 app.use('/api/v1/user', UserRouter);
