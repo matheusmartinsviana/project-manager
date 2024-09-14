@@ -7,6 +7,7 @@ const router = express.Router();
 router.post('/', AuthMiddleware.validateToken, ProjectApi.createProject)
 router.put('/:id', AuthMiddleware.validateToken, ProjectApi.updateProject)
 router.get('/', AuthMiddleware.validateToken, ProjectApi.findProjects)
+router.get('/:id', AuthMiddleware.validateToken, ProjectApi.findProject)
 router.delete('/:id', AuthMiddleware.validateToken, ProjectApi.deleteProject)
 
 module.exports = router;
