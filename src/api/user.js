@@ -72,7 +72,12 @@ class UserApi {
     try {
       const token = await UserController.login(email, password);
 
-      res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
+      res.cookie("token", token, {
+        httpOnly: true,
+        maxAge: 3600000,
+        secure: false,
+        sameSite: "None",
+      });
       return res.status(200).send({ message: "Login successful" });
     } catch (e) {
       return res.status(400).send({ error: `Error logging in: ${e.message}` });
