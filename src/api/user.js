@@ -71,10 +71,17 @@ class UserApi {
 
     try {
       const token = await UserController.login(email, password);
-      return res.status(200).send({ token });
+
+      res.cookie("token", token, { httpOnly: true, maxAge: 3600000 });
+      return res.status(200).send({ message: "Login successful" });
     } catch (e) {
-      return res.status(400).send({ error: `Error logging: ${e.message}` });
+      return res.status(400).send({ error: `Error logging in: ${e.message}` });
     }
+  }
+
+  async logout(req, res) {
+    res.clearCookie("token");
+    return res.status(200).send({ message: "Logged out successfully" });
   }
 }
 

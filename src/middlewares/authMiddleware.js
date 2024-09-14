@@ -1,22 +1,21 @@
-const jwt = require('jsonwebtoken');
-
-const SECRET_KEY = 'c209e4660e965332f0c7424aa357079b597726d83a0ee935c2f609d74fc957b2';
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 class AuthMiddleware {
-    async validateToken(req, res, next) {
-        try {
-            const token = req.headers.authorization;
+  async validateToken(req, res, next) {
+    try {
+      const token = req.cookies.token;
 
-            if (!token) {
-                return res.status(401).send({ error: 'Token is required' });
-            }
+      if (!token) {
+        return res.status(401).send({ error: "Token is required" });
+      }
 
-            await jwt.verify(token, SECRET_KEY)
-            next();
-        } catch (e) {
-            res.status(400).send({ error: e.message });
-        }
+      await jwt.verify(token, process.env.SECRET_KEY);
+      next();
+    } catch (e) {
+      res.status(400).send({ error: e.message });
     }
+  }
 }
 
 module.exports = new AuthMiddleware();

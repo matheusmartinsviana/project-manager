@@ -1,10 +1,9 @@
 const user = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-const SECRET_KEY =
-  "c209e4660e965332f0c7424aa357079b597726d83a0ee935c2f609d74fc957b2";
-const SALT_VALUE = 10;
+const saltValue = Number(process.env.SALT_VALUE);
 
 class UserController {
   async create(name, email, password) {
@@ -12,7 +11,7 @@ class UserController {
       throw new Error("Name, email, and password are required");
     }
 
-    const cypherpassword = await bcrypt.hash(password, SALT_VALUE);
+    const cypherpassword = await bcrypt.hash(password, saltValue);
 
     try {
       const userValue = await user.create({
@@ -53,7 +52,7 @@ class UserController {
 
     userValue.name = name;
     userValue.email = email;
-    userValue.password = await bcrypt.hash(password, SALT_VALUE);
+    userValue.password = await bcrypt.hash(password, saltValue);
     await userValue.save();
 
     return userValue;
@@ -88,7 +87,9 @@ class UserController {
       throw new Error("Invalid username or password");
     }
 
-    return jwt.sign({ id: userValue.id }, SECRET_KEY, { expiresIn: "1h" });
+    return jwt.sign({ id: userValue.id }, process.env.SECRET_KEY, {
+      expiresIn: "1h",
+    });
   }
 }
 
