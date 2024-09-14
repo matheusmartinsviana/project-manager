@@ -10,11 +10,17 @@ class AuthMiddleware {
         return res.status(401).send({ error: "Token is required" });
       }
 
-      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      const secretKey = process.env.SECRET_KEY;
+      if (!secretKey) {
+        throw new Error("Secret key is not defined");
+      }
+
+      const decoded = jwt.verify(token, secretKey);
       req.userId = decoded.id;
 
       next();
     } catch (e) {
+      console.error("Token validation error:", e.message);
       res.status(401).send({ error: e.message });
     }
   }
