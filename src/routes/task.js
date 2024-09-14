@@ -5,6 +5,7 @@ const TaskApi = require('../api/task')
 const router = express.Router()
 
 router.get('/', AuthMiddleware.validateToken, TaskApi.findTasks)
+router.get('/:id', AuthMiddleware.validateToken, TaskApi.findTask)
 router.get('/status', AuthMiddleware.validateToken, TaskApi.findTasksByStatus)
 router.post('/', AuthMiddleware.validateToken, TaskApi.createTask)
 router.put('/:id', AuthMiddleware.validateToken, TaskApi.updateTask)
