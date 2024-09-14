@@ -1,11 +1,11 @@
-const { DataTypes } = require('sequelize')
-const database = require('../config/database')
+const { DataTypes } = require('sequelize');
+const database = require('../config/database');
 
 class Project {
     constructor() {
         this.model = database.db.define('projects', {
             id: {
-                type: database.db.Sequelize.INTEGER,
+                type: DataTypes.INTEGER,
                 primaryKey: true,
                 autoIncrement: true
             },
@@ -14,21 +14,21 @@ class Project {
                 allowNull: false
             },
             description: {
-                type: database.db.Sequelize.STRING,
+                type: DataTypes.STRING,
                 allowNull: false
             },
             createdAt: {
                 type: DataTypes.DATE
             },
             userId: {
-                type: database.db.Sequelize.INTEGER,
+                type: DataTypes.INTEGER,
                 references: {
                     model: 'users',
                     key: 'id'
                 }
             }
-        })
+        });
     }
 }
 
-module.exports = (new Project()).model
+module.exports = (new Project()).model;
