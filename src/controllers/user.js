@@ -87,9 +87,14 @@ class UserController {
       throw new Error("Invalid username or password");
     }
 
-    return jwt.sign({ id: userValue.id }, process.env.SECRET_KEY, {
+    const token = jwt.sign({ id: userValue.id }, process.env.SECRET_KEY, {
       expiresIn: "1h",
     });
+
+    return {
+      token,
+      userId: userValue.id,
+    };
   }
 }
 
