@@ -1,77 +1,93 @@
-const task = require('../models/task')
-const ProjectController = require('../controllers/project')
+const Task = require("../models/task");
+const ProjectController = require("../controllers/project");
 
 class TaskController {
-    async create(title, description, projectId) {
-        if (!title || !description || !projectId) {
-            throw new Error('Title, description, and projectId are required')
-        }
-
-        await ProjectController.findProject(Number(projectId))
-
-        const taskValue = await task.create({
-            title,
-            description,
-            projectId
-        })
-
-        return taskValue
+  async create(title, description, projectId, userId) {
+    if (!title || !description || !projectId) {
+      throw new Error("Title, description, and projectId are required");
     }
 
-    async update(id, title, description, status, conclusionDate) {
-        if (!id || !title || !description) {
-            throw new Error('Id, title, and description are required')
-        }
+    await ProjectController.findProjectByIdAndUser(userId, Number(projectId));
 
-        const taskValue = await this.findTask(id)
+    const taskValue = await Task.create({
+      title,
+      description,
+      projectId,
+    });
 
-        taskValue.title = title
-        taskValue.description = description
-        if (status !== undefined) taskValue.status = status
-        if (conclusionDate !== undefined) taskValue.conclusionDate = conclusionDate
+    return taskValue;
+  }
 
-        await taskValue.save()
-        return taskValue
+  async update(id, title, description, status, conclusionDate, userId) {
+    if (!id || !title || !description) {
+      throw new Error("Id, title, and description are required");
     }
 
-    async delete(id) {
-        if (!id) {
-            throw new Error('Id is required')
-        }
+    const taskValue = await this.findTask(id);
+    await ProjectController.findProjectByIdAndUser(userId, taskValue.projectId);
 
-        const taskValue = await this.findTask(id)
-        await taskValue.destroy()
+    taskValue.title = title;
+    taskValue.description = description;
+    if (status !== undefined) taskValue.status = status;
+    if (conclusionDate !== undefined) taskValue.conclusionDate = conclusionDate;
+
+    await taskValue.save();
+    return taskValue;
+  }
+
+  async delete(id, userId) {
+    if (!id) {
+      throw new Error("Id is required");
     }
 
-    async findTask(id) {
-        if (!id) {
-            throw new Error('Id is required')
-        }
+    const taskValue = await this.findTask(id);
+    await ProjectController.findProjectByIdAndUser(userId, taskValue.projectId);
 
-        const taskValue = await task.findByPk(id)
+    await taskValue.destroy();
+  }
 
-        if (!taskValue) {
-            throw new Error('Task not found')
-        }
-
-        return taskValue
+  async findTask(id) {
+    if (!id) {
+      throw new Error("Id is required");
     }
 
-    async find() {
-        return task.findAll()
+    const taskValue = await Task.findByPk(id);
+
+    if (!taskValue) {
+      throw new Error("Task not found");
     }
 
-    async findByStatus(status) {
-        if (!status) {
-            throw new Error('Status is required')
-        }
+    return taskValue;
+  }
 
-        const taskValue = await task.findAndCountAll({
-            where: { status: status }
-        })
+  async find(userId) {
+    const projects = await ProjectController.findProjects(userId);
+    const projectIds = projects.map((project) => project.id);
 
-        return taskValue
+    return Task.findAll({
+      where: {
+        projectId: projectIds,
+      },
+    });
+  }
+
+  async findByStatus(status, userId) {
+    if (typeof status !== "string") {
+      throw new Error("Status must be a string");
     }
+
+    const projects = await ProjectController.findProjects(userId);
+    const projectIds = projects.map((project) => project.id);
+
+    const taskValue = await Task.findAndCountAll({
+      where: {
+        status: status,
+        projectId: projectIds,
+      },
+    });
+
+    return taskValue;
+  }
 }
 
-module.exports = new TaskController()
+module.exports = new TaskController();

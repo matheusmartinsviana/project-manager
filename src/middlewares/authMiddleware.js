@@ -10,10 +10,12 @@ class AuthMiddleware {
         return res.status(401).send({ error: "Token is required" });
       }
 
-      await jwt.verify(token, process.env.SECRET_KEY);
+      const decoded = jwt.verify(token, process.env.SECRET_KEY);
+      req.userId = decoded.id;
+
       next();
     } catch (e) {
-      res.status(400).send({ error: e.message });
+      res.status(401).send({ error: e.message });
     }
   }
 }
