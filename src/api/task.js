@@ -73,7 +73,6 @@ class TaskApi {
     const { id } = req.params;
     const { userId } = req;
 
-    console.log("aqui")
     try {
       const task = await TaskController.findTask(id);
       await ProjectController.findProjectByIdAndUser(userId, task.projectId);
@@ -89,7 +88,6 @@ class TaskApi {
   async findTasksByStatus(req, res) {
     const { status } = req.body;
     const { userId } = req;
-    console.log("afind task")
 
     try {
       const tasks = await TaskController.findByStatus(status, userId);
