@@ -1,5 +1,6 @@
 const Task = require("../models/task");
 const ProjectController = require("../controllers/project");
+const { Project } = require("../config/associations");
 
 class TaskController {
   async create(title, description, projectId, userId) {
@@ -67,6 +68,10 @@ class TaskController {
     return Task.findAll({
       where: {
         projectId: projectIds,
+      },
+      include: {
+        model: Project,
+        attributes: ["name"],
       },
     });
   }
