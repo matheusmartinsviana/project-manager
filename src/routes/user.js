@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/auth", AuthMiddleware.validateToken, UserApi.auth);
 router.post("/login", UserApi.login);
-router.post("/logout", AuthMiddleware.validateToken, UserApi.logout);
+router.post("/logout", UserApi.logout);
 router.post("/", UserApi.createUser);
 router.put("/:id", AuthMiddleware.validateToken, UserApi.updateUser);
 router.get("/", AuthMiddleware.validateToken, UserApi.findUsers);
