@@ -76,13 +76,13 @@ class UserApi {
         httpOnly: true,
         maxAge: 3600000,
         secure: process.env.NODE_ENV_PROD === "production",
-        sameSite: "None",
+        sameSite: process.env.NODE_ENV_PROD === "production" ? "None" : "Lax",
       });
 
       res.cookie("userId", userId, {
         httpOnly: true,
         secure: process.env.NODE_ENV_PROD === "production",
-        sameSite: "None",
+        sameSite: process.env.NODE_ENV_PROD === "production" ? "None" : "Lax",
       });
 
       return res.status(200).send({ message: "Login successful" });
@@ -98,13 +98,12 @@ class UserApi {
   }
 
   async auth(req, res) {
-    const userId = await req.userId;
-    if (!userId) {
+    if (!req.userId) {
       return res
         .status(401)
         .json({ isAuthenticated: false, message: "User not authenticated" });
     }
-    return res.status(200).json({ isAuthenticated: true, userId: userId });
+    return res.status(200).json({ isAuthenticated: true, userId: req.userId });
   }
 }
 
