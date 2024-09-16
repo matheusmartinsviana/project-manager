@@ -3,7 +3,7 @@ const AuthMiddleware = require("../middlewares/authMiddleware");
 const UserApi = require("../api/user");
 const router = express.Router();
 
-router.post("/auth", AuthMiddleware.validateToken, UserApi.auth);
+router.get("/auth", AuthMiddleware.validateToken, UserApi.auth);
 router.post("/login", UserApi.login);
 router.post("/logout", UserApi.logout);
 router.post("/", UserApi.createUser);
