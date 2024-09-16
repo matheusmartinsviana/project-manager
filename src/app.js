@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cookie_parser());
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: 'https://project-manager-frontend-slmf.onrender.com',
     credentials: true,
   })
 );

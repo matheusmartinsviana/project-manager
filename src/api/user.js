@@ -74,14 +74,14 @@ class UserApi {
 
       res.cookie("token", token, {
         httpOnly: true,
-        maxAge: 3600000, 
-        secure: process.env.NODE_ENV === "production",
+        maxAge: 3600000,
+        secure: process.env.NODE_ENV_PROD === "production",
         sameSite: "None",
       });
 
       res.cookie("userId", userId, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
+        secure: process.env.NODE_ENV_PROD === "production",
         sameSite: "None",
       });
 
@@ -93,7 +93,18 @@ class UserApi {
 
   async logout(req, res) {
     res.clearCookie("token");
+    res.clearCookie("userId");
     return res.status(200).send({ message: "Logged out successfully" });
+  }
+
+  async auth(req, res) {
+    const userId = await req.userId;
+    if (!userId) {
+      return res
+        .status(401)
+        .json({ isAuthenticated: false, message: "User not authenticated" });
+    }
+    return res.status(200).json({ isAuthenticated: true, userId: userId });
   }
 }
 

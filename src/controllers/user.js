@@ -11,6 +11,15 @@ class UserController {
       throw new Error("Name, email, and password are required");
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      throw new Error("Invalid email format");
+    }
+
+    if (password.length < 6) {
+      throw new Error("Password must be at least 6 characters long");
+    }
+
     const cypherpassword = await bcrypt.hash(password, saltValue);
 
     try {
@@ -22,9 +31,10 @@ class UserController {
 
       return userValue;
     } catch (error) {
-      if (error.parent && error.parent.code === "ER_DUP_ENTRY") {
+      if (error.parent && error.parent.code === "23505") {
         throw new Error("Email already exists");
       }
+
       throw new Error(error.message || "Error creating user");
     }
   }
