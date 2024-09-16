@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(cookie_parser());
 app.use(
   cors({
-    origin: 'https://project-manager-frontend-slmf.onrender.com',
+    origin: process.env.ORIGIN,
     credentials: true,
   })
 );
