@@ -93,8 +93,16 @@ class UserApi {
   }
 
   async logout(req, res) {
-    res.clearCookie("token");
-    res.clearCookie("userId");
+    res.clearCookie("token", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
+    res.clearCookie("userId", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+    });
     return res.status(200).send({ message: "Logged out successfully" });
   }
 
