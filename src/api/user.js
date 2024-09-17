@@ -75,14 +75,15 @@ class UserApi {
       res.cookie("token", token, {
         httpOnly: true,
         maxAge: 3600000,
-        secure: process.env.NODE_ENV_PROD === "production",
-        sameSite: process.env.NODE_ENV_PROD === "production" ? "None" : "Lax",
+        secure: false,
+        sameSite: "None",
       });
 
       res.cookie("userId", userId, {
         httpOnly: true,
-        secure: process.env.NODE_ENV_PROD === "production",
-        sameSite: process.env.NODE_ENV_PROD === "production" ? "None" : "Lax",
+        maxAge: 3600000,
+        secure: false,
+        sameSite: "None",
       });
 
       return res.status(200).send({ message: "Login successful" });
