@@ -75,14 +75,14 @@ class UserApi {
       res.cookie("token", token, {
         httpOnly: true,
         maxAge: 3600000,
-        secure: false,
+        secure: true,
         sameSite: "None",
       });
 
       res.cookie("userId", userId, {
         httpOnly: true,
         maxAge: 3600000,
-        secure: false,
+        secure: true,
         sameSite: "None",
       });
 
