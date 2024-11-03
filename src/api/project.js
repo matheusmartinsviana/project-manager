@@ -34,8 +34,7 @@ class ProjectApi {
   }
 
   async deleteProject(req, res) {
-    const { id } = req.userToken;
-
+    const id = req.userId;
     try {
       await ProjectController.delete(Number(id));
       return res.status(204).send();
