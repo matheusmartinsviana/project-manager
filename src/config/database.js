@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { Sequelize } = require("sequelize");
 
 class Database {
@@ -6,9 +7,15 @@ class Database {
   }
 
   init() {
-    this.db = new Sequelize("project-manager", "root", "", {
-      host: "localhost",
-      dialect: "mysql",
+    this.db = new Sequelize(process.env.DATABASE_URL, {
+      dialect: "postgres",
+      logging: false,
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
     });
   }
 }
