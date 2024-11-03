@@ -8,8 +8,8 @@ app.use(cookie_parser());
 app.use(
   cors({
     origin: [
-      "https://project-manager-frontend-slmf.onrender.com/",
-      "http://localhost:5174/",
+      "https://project-manager-frontend-slmf.onrender.com",
+      "http://localhost:5174",
     ],
     credentials: true,
   })
