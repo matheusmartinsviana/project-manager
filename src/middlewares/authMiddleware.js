@@ -17,6 +17,7 @@ class AuthMiddleware {
 
       const decoded = jwt.verify(token, secretKey);
       req.userId = decoded.id;
+      req.userToken = decoded.token;
 
       next();
     } catch (e) {
